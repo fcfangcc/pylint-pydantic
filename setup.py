@@ -16,4 +16,5 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     keywords=['pylint', 'pydantic'],
+    python_requires=">=3.9"
 )
