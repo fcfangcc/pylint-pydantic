@@ -1,9 +1,11 @@
 from setuptools import setup
+LONG_DESCRIPTION = open('README.rst').read()
 
 setup(
     name='pylint-pydantic',
-    version='0.1',
+    version='0.1.1',
     description='A Pylint plugin to help Pylint understand the Pydantic',
+    long_description=LONG_DESCRIPTION,
     author='fcfangcc',
     author_email='swjfc22@163.com',
     url='https://github.com/fcfangcc/pylint-pydantic',

@@ -1,0 +1,38 @@
+pylint-pydantic
+================
+A Pylint plugin to help Pylint understand the Pydantic
+
+How to use
+===============
+Installation
+
+.. code:: shell
+
+    pip install pylint-pydantic
+
+Use in console
+
+.. code:: shell
+
+    pylint --load-plugins pylint_pydantic xxxxx
+
+Use in vscode,settings.json add item
+
+.. code:: shell
+
+    "python.linting.pylintArgs": ["--load-plugins pylint_pydantic"]
+    
+Tests
+============
+.. code:: shell
+
+    pylint --rcfile=pylintrc --load-plugins pylint_pydantic examples/base_model.py
+    ------------------------------------
+    Your code has been rated at 10.00/10
+
+
+Other
+=====================
+If you have any questions, please create a issue.
+https://github.com/fcfangcc/pylint-pydantic/issues
+
