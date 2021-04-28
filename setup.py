@@ -3,7 +3,7 @@ LONG_DESCRIPTION = open('README.rst').read()
 
 setup(
     name='pylint-pydantic',
-    version='0.1.1',
+    version='0.1.2',
     description='A Pylint plugin to help Pylint understand the Pydantic',
     long_description=LONG_DESCRIPTION,
     author='fcfangcc',
@@ -18,5 +18,9 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     keywords=['pylint', 'pydantic'],
-    python_requires=">=3.9"
+    python_requires=">=3.9",
+    install_requires=[
+        'pylint-plugin-utils>=0.5',
+        'pylint>=2.0',
+    ],
 )
