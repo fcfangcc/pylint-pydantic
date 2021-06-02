@@ -4,6 +4,7 @@ from pylint.lint import PyLinter
 from pylint.checkers.classes import ClassChecker
 from pylint.checkers.variables import VariablesChecker
 from pylint_plugin_utils import suppress_message
+from pydantic import __all__ as import_module_list
 
 
 def is_validator_method(node: FunctionDef):
@@ -16,18 +17,16 @@ def is_validator_method(node: FunctionDef):
         if isinstance(decorator, Name) and decorator.name in validator_method_names:
             return True
         # arguments
-        if isinstance(decorator, Call) and decorator.func.name in validator_method_names:
+        if isinstance(decorator, Call) and getattr(decorator.func, "name", None) in validator_method_names:
             return True
 
     return False
 
 
 def is_pydantic_property(node: ImportFrom):
-    ignore_names = ["BaseModel"]
-
     if node.names and node.modname == "pydantic":
         for name, _ in node.names:
-            if name in ignore_names:
+            if name in import_module_list:
                 return True
     return False
 

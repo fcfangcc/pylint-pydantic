@@ -1,8 +1,9 @@
-from pydantic import BaseModel, validator, root_validator
+from pydantic import BaseModel, validator, root_validator, constr
 
 
 class A(BaseModel):
-    a = 10
+    a: int = 10
+    b: constr(max_length=10)
 
     @property
     def test(self):
