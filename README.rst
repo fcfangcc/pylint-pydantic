@@ -21,7 +21,7 @@ Use in vscode,settings.json add item
 .. code:: shell
 
     "python.linting.pylintArgs": ["--load-plugins pylint_pydantic"]
-    
+
 Tests
 ============
 .. code:: shell
@@ -30,6 +30,10 @@ Tests
     ------------------------------------
     Your code has been rated at 10.00/10
 
+FAQ
+=====================
+- How to resolve `pylint: No name 'BaseModel' in module 'pydantic'`?
+    Add `--extension-pkg-whitelist='pydantic'` parameter (see `#1961 <https://github.com/samuelcolvin/pydantic/issues/1961>`_)
 
 Other
 =====================
