@@ -16,12 +16,14 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Quality Assurance',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
     ],
     keywords=['pylint', 'pydantic'],
-    python_requires=">=3.9",
+    python_requires=">=3.6",
     install_requires=[
-        'pylint-plugin-utils>=0.5',
         'pylint>=2.0',
     ],
 )
