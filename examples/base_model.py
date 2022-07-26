@@ -1,5 +1,5 @@
 import pydantic
-from pydantic import BaseModel, validator, root_validator, constr
+from pydantic import BaseModel, BaseSettings, constr, root_validator, validator
 
 
 class A(BaseModel):
@@ -38,3 +38,13 @@ class A(BaseModel):
     def valid_static_method(cls, values):
         values[cls.__name__] = cls.__name__
         return values
+
+
+class SampleModel(BaseModel):
+    host: str = "0.0.0.0"
+    port: int = 8080
+
+
+class SampleSetting(BaseSettings):
+    host: str = "0.0.0.0"
+    port: int = 8080
