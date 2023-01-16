@@ -1,4 +1,6 @@
-from astroid import MANAGER, Attribute, Call, FunctionDef, Name
+from astroid import MANAGER, Attribute, Call, ClassDef, FunctionDef, Name
+from pylint.checkers.design_analysis import MisdesignChecker
+from pylint_plugin_utils import suppress_message
 
 
 def is_validator_method(node: FunctionDef):
@@ -17,17 +19,11 @@ def is_validator_method(node: FunctionDef):
             decorator = decorator.func
 
         # @validator
-        if (
-            isinstance(decorator, Name)
-            and decorator.name in validator_method_names
-        ):
+        if (isinstance(decorator, Name) and decorator.name in validator_method_names):
             return True
 
         # @pydantic.validator
-        if (
-            isinstance(decorator, Attribute)
-            and decorator.attrname in validator_method_names
-        ):
+        if (isinstance(decorator, Attribute) and decorator.attrname in validator_method_names):
             return True
 
     return False
@@ -38,11 +34,16 @@ def transform(node: FunctionDef):
         node.type = "classmethod"
 
 
+def is_pydantic_config_class(node: ClassDef):
+    if node.name == "Config" \
+        and isinstance(node.parent, ClassDef) \
+            and node.parent.is_subtype_of("pydantic.main.BaseModel"):
+        return True
+    return False
+
+
 MANAGER.register_transform(FunctionDef, transform)
 
 
 def register(linter):
-    # Needed for registering the plugin.
-    # We don't need to do anything in the register function of the plugin since
-    # we are not modifying anything in the linter itself.
-    pass
+    suppress_message(linter, MisdesignChecker.leave_classdef, 'too-few-public-methods', is_pydantic_config_class)
