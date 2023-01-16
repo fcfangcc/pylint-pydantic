@@ -48,3 +48,16 @@ class SampleModel(BaseModel):
 class SampleSetting(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8080
+
+
+class TooFewPublicMethods(BaseModel):
+    value: str
+
+    class Config:  # this line raise too-few-public-methods
+        max_anystr_length = 10
+
+
+class TooFewPublicMethodsNested(TooFewPublicMethods):
+
+    class Config:
+        max_anystr_length = 20
