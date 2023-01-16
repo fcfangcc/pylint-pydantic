@@ -34,9 +34,9 @@ def transform(node: FunctionDef):
         node.type = "classmethod"
 
 
-def is_pydatic_config_class(node: ClassDef):
+def is_pydantic_config_class(node: ClassDef):
     if node.name == "Config" \
-        and isinstance(node.parent,ClassDef) \
+        and isinstance(node.parent, ClassDef) \
             and node.parent.is_subtype_of("pydantic.main.BaseModel"):
         return True
     return False
@@ -46,4 +46,4 @@ MANAGER.register_transform(FunctionDef, transform)
 
 
 def register(linter):
-    suppress_message(linter, MisdesignChecker.leave_classdef, 'too-few-public-methods', is_pydatic_config_class)
+    suppress_message(linter, MisdesignChecker.leave_classdef, 'too-few-public-methods', is_pydantic_config_class)
