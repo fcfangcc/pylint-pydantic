@@ -1,5 +1,5 @@
 import pydantic
-from pydantic import BaseModel, BaseSettings, constr, root_validator, validator
+from pydantic import (BaseModel, BaseSettings, Json, constr, root_validator, validator)
 
 
 class A(BaseModel):
@@ -50,6 +50,7 @@ class SampleSetting(BaseSettings):
     port: int = 8080
 
 
+# issue #9
 class TooFewPublicMethods(BaseModel):
     value: str
 
@@ -61,3 +62,10 @@ class TooFewPublicMethodsNested(TooFewPublicMethods):
 
     class Config:
         max_anystr_length = 20
+
+
+# issue #11
+ExampleType1 = pydantic.Json[dict[str, str]]
+ExampleType2 = Json[dict[str, str]]
+ExampleType3 = Json
+type_a: Json[list[str]] = [1, 2, 3, 4, 5]

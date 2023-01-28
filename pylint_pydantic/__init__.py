@@ -1,4 +1,5 @@
-from astroid import MANAGER, Attribute, Call, ClassDef, FunctionDef, Name
+import astroid
+from astroid import (MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, nodes)
 from pylint.checkers.design_analysis import MisdesignChecker
 from pylint_plugin_utils import suppress_message
 
@@ -42,7 +43,18 @@ def is_pydantic_config_class(node: ClassDef):
     return False
 
 
+def transform_pydantic_type(node: nodes.Subscript):
+    if "Json" in node.value.as_string():
+        inferreds = node.value.inferred()
+        inferred = inferreds[0] if inferreds else None
+        if inferred and inferred.is_subtype_of("pydantic.types.Json"):
+            new_subscript = astroid.extract_node(node.slice.as_string())
+            node.slice = new_subscript.slice
+            node.value = new_subscript.value
+
+
 MANAGER.register_transform(FunctionDef, transform)
+MANAGER.register_transform(nodes.Subscript, transform_pydantic_type)
 
 
 def register(linter):
