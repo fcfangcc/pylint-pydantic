@@ -1,3 +1,5 @@
+from typing import Any
+
 import pydantic
 from pydantic import (BaseModel, BaseSettings, Json, constr, root_validator, validator)
 
@@ -10,11 +12,11 @@ class A(BaseModel):
     def test(self):
         return f"{self.a+10}"
 
-    @validator
+    @validator("a")
     def valid_after(cls, value):
         return value
 
-    @validator(pre=True)
+    @validator("a", pre=True)
     def valid_pre(cls, value):
         return value
 
@@ -64,8 +66,19 @@ class TooFewPublicMethodsNested(TooFewPublicMethods):
         max_anystr_length = 20
 
 
-# issue #11
+# issue #11 #14
 ExampleType1 = pydantic.Json[dict[str, str]]
 ExampleType2 = Json[dict[str, str]]
 ExampleType3 = Json
 type_a: Json[list[str]] = [1, 2, 3, 4, 5]
+
+
+class AnyJsonModel(BaseModel):
+    json_obj: Json[Any]
+    json_obj2: Json[list[int]]
+    json_obj3: Json[TooFewPublicMethods]
+
+
+def test_func(params: Json[list]):
+    for i in params:
+        print(i)

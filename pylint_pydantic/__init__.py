@@ -43,18 +43,17 @@ def is_pydantic_config_class(node: ClassDef):
     return False
 
 
-def transform_pydantic_type(node: nodes.Subscript):
+def transform_pydantic_json(node: nodes.Subscript):
     if "Json" in node.value.as_string():
         inferreds = node.value.inferred()
         inferred = inferreds[0] if inferreds else None
         if inferred and inferred.is_subtype_of("pydantic.types.Json"):
             new_subscript = astroid.extract_node(node.slice.as_string())
-            node.slice = new_subscript.slice
-            node.value = new_subscript.value
+            return new_subscript
 
 
 MANAGER.register_transform(FunctionDef, transform)
-MANAGER.register_transform(nodes.Subscript, transform_pydantic_type)
+MANAGER.register_transform(nodes.Subscript, transform_pydantic_json)
 
 
 def register(linter):
