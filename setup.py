@@ -24,5 +24,5 @@ setup(
     ],
     keywords=['pylint', 'pydantic'],
     python_requires=">=3.7",
-    install_requires=['pylint>2.0,<3.0', 'pydantic<2.0', 'pylint_plugin_utils'],
+    install_requires=['pylint>2.0,<3.0', 'pydantic<3.0', 'pylint_plugin_utils'],
 )
