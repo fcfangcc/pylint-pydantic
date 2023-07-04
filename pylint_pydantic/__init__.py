@@ -3,12 +3,10 @@ from astroid import (MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, node
 from pylint.checkers.design_analysis import MisdesignChecker
 from pylint_plugin_utils import suppress_message
 
+VALIDATOR_METHOD_NAMES = {"validator", "root_validator", "field_validator"}
+
 
 def is_validator_method(node: FunctionDef):
-    validator_method_names = {
-        "validator",
-        "root_validator",
-    }
 
     if not node.decorators:
         return False
@@ -20,11 +18,11 @@ def is_validator_method(node: FunctionDef):
             decorator = decorator.func
 
         # @validator
-        if (isinstance(decorator, Name) and decorator.name in validator_method_names):
+        if (isinstance(decorator, Name) and decorator.name in VALIDATOR_METHOD_NAMES):
             return True
 
         # @pydantic.validator
-        if (isinstance(decorator, Attribute) and decorator.attrname in validator_method_names):
+        if (isinstance(decorator, Attribute) and decorator.attrname in VALIDATOR_METHOD_NAMES):
             return True
 
     return False

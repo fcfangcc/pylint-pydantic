@@ -1,7 +1,7 @@
 from typing import Any
 
 import pydantic
-from pydantic import (BaseModel, BaseSettings, Json, constr, root_validator, validator)
+from pydantic import (BaseModel, Json, constr, root_validator, validator)
 
 
 class A(BaseModel):
@@ -43,11 +43,6 @@ class A(BaseModel):
 
 
 class SampleModel(BaseModel):
-    host: str = "0.0.0.0"
-    port: int = 8080
-
-
-class SampleSetting(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8080
 

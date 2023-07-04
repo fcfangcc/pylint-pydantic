@@ -40,3 +40,7 @@ Other
 If you have any questions, please create a issue.
 https://github.com/fcfangcc/pylint-pydantic/issues
 
+
+Changelog
+=====================
+- v0.2.0: support Pydantic V2
