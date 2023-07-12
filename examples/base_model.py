@@ -1,7 +1,7 @@
 from typing import Any
 
 import pydantic
-from pydantic import (BaseModel, Json, constr, root_validator, validator)
+from pydantic import (BaseModel, Json, constr, root_validator, validator, model_validator)
 
 
 class A(BaseModel):
@@ -39,6 +39,14 @@ class A(BaseModel):
     @root_validator
     def valid_static_method(cls, values):
         values[cls.__name__] = cls.__name__
+        return values
+
+    @model_validator(mode='before')
+    def pre_root(cls, values: dict[str, Any]) -> dict[str, Any]:
+        return values
+
+    @model_validator(mode='after')
+    def post_root(cls, values: dict[str, Any]) -> dict[str, Any]:
         return values
 
 

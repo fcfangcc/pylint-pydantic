@@ -3,7 +3,7 @@ from astroid import (MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, node
 from pylint.checkers.design_analysis import MisdesignChecker
 from pylint_plugin_utils import suppress_message
 
-VALIDATOR_METHOD_NAMES = {"validator", "root_validator", "field_validator"}
+VALIDATOR_METHOD_NAMES = {"validator", "root_validator", "field_validator", "model_validator"}
 
 
 def is_validator_method(node: FunctionDef):

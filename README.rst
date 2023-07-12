@@ -44,3 +44,4 @@ https://github.com/fcfangcc/pylint-pydantic/issues
 Changelog
 =====================
 - v0.2.0: support Pydantic V2
+- v0.2.1: support `model_validator`
