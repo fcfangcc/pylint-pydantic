@@ -1,35 +1,56 @@
 import astroid
-from astroid import (MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, nodes)
+from astroid import MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, nodes
 from pylint.checkers.design_analysis import MisdesignChecker
 from pylint_plugin_utils import suppress_message
 
-VALIDATOR_METHOD_NAMES = {"validator", "root_validator", "field_validator", "model_validator"}
+CLASSMETHOD_VALIDATOR_NAMES = {"validator", "root_validator", "field_validator"}
+MODE_VALIDATOR_NAMES = {"model_validator"}
 
 
-def is_validator_method(node: FunctionDef):
+def _mode_validator_is_classmethod(call: Call):
+    # https://docs.pydantic.dev/latest/api/functional_validators/#pydantic.functional_validators.model_validator
+    for keyword in call.keywords:
+        if keyword.arg == "mode" and "after" in keyword.value.as_string():
+            return False
+    return True
+
+
+# def _get_decorator_name(decorator: Name | Attribute):
+def _get_decorator_name(decorator):
+
+    # @validator(pre=True)
+    if isinstance(decorator, Call):
+        decorator = decorator.func
+
+    # @validator
+    if isinstance(decorator, Name):
+        return decorator.name
+
+    # @pydantic.validator
+    if isinstance(decorator, Attribute):
+        return decorator.attrname
+
+    raise ValueError("Invalid decorator name")
+
+
+def _is_classmethod_decorator(node: FunctionDef):
 
     if not node.decorators:
         return False
 
     for decorator in node.decorators.get_children():
-        # @validator(pre=True)
-        if isinstance(decorator, Call):
-            # transform to @validator case
-            decorator = decorator.func
-
-        # @validator
-        if (isinstance(decorator, Name) and decorator.name in VALIDATOR_METHOD_NAMES):
+        decorator_name = _get_decorator_name(decorator)
+        if decorator_name in CLASSMETHOD_VALIDATOR_NAMES:
             return True
 
-        # @pydantic.validator
-        if (isinstance(decorator, Attribute) and decorator.attrname in VALIDATOR_METHOD_NAMES):
-            return True
+        if decorator_name in MODE_VALIDATOR_NAMES:
+            return _mode_validator_is_classmethod(decorator)
 
     return False
 
 
 def transform(node: FunctionDef):
-    if is_validator_method(node):
+    if _is_classmethod_decorator(node):
         node.type = "classmethod"
 
 

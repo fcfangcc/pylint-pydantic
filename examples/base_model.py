@@ -1,7 +1,7 @@
 from typing import Any
 
 import pydantic
-from pydantic import (BaseModel, Json, constr, root_validator, validator, model_validator)
+from pydantic import BaseModel, Json, constr, model_validator, root_validator, validator
 
 
 class A(BaseModel):
@@ -45,10 +45,6 @@ class A(BaseModel):
     def pre_root(cls, values: dict[str, Any]) -> dict[str, Any]:
         return values
 
-    @model_validator(mode='after')
-    def post_root(cls, values: dict[str, Any]) -> dict[str, Any]:
-        return values
-
 
 class SampleModel(BaseModel):
     host: str = "0.0.0.0"
@@ -85,3 +81,26 @@ class AnyJsonModel(BaseModel):
 def test_func(params: Json[list]):
     for i in params:
         print(i)
+
+
+# issue #22
+class UserModel(BaseModel):
+    username: str
+    password1: str
+    password2: str
+
+    @model_validator(mode='before')
+    def check_card_number_omitted1(cls, data):
+        return data
+
+    @pydantic.model_validator(mode='before')
+    def check_card_number_omitted2(cls, data):
+        return data
+
+    @model_validator(mode='after')
+    def check_passwords_match1(self) -> 'UserModel':
+        return self
+
+    @pydantic.model_validator(mode='after')
+    def check_passwords_match2(self) -> 'UserModel':
+        return self

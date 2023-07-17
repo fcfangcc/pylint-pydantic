@@ -45,3 +45,4 @@ Changelog
 =====================
 - v0.2.0: support Pydantic V2
 - v0.2.1: support `model_validator`
+- v0.2.2: fix model_validator keyword **mode**, pydatic>=2.0.3
