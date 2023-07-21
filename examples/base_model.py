@@ -104,3 +104,9 @@ class UserModel(BaseModel):
     @pydantic.model_validator(mode='after')
     def check_passwords_match2(self) -> 'UserModel':
         return self
+
+
+# issue 23
+@lambda f: f
+def test_lambda_decorator():
+    pass

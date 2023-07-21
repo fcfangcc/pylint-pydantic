@@ -30,7 +30,7 @@ def _get_decorator_name(decorator):
     if isinstance(decorator, Attribute):
         return decorator.attrname
 
-    raise ValueError("Invalid decorator name")
+    return None
 
 
 def _is_classmethod_decorator(node: FunctionDef):
@@ -40,6 +40,10 @@ def _is_classmethod_decorator(node: FunctionDef):
 
     for decorator in node.decorators.get_children():
         decorator_name = _get_decorator_name(decorator)
+
+        if decorator_name is None:
+            return False
+
         if decorator_name in CLASSMETHOD_VALIDATOR_NAMES:
             return True
 
