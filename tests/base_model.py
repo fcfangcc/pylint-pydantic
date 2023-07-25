@@ -1,7 +1,10 @@
+import dataclasses
+import datetime
 from typing import Any
 
 import pydantic
-from pydantic import BaseModel, Json, constr, model_validator, root_validator, validator
+from pydantic import BaseModel, Field, Json, constr, model_validator, root_validator, validator
+from pydantic.dataclasses import dataclass
 
 
 class A(BaseModel):
@@ -106,7 +109,21 @@ class UserModel(BaseModel):
         return self
 
 
-# issue 23
-@lambda f: f
-def test_lambda_decorator():
-    pass
+# issue 24
+class MyModel(BaseModel):
+    data: dict[float, float] = Field(default_factory=dict)
+
+    def get_data(self, key: float) -> float:
+        return self.data[key]
+
+
+@dataclass
+class UserTest:
+    id: int
+    name: str = 'John Doe'
+    signup_ts: datetime = None
+    friends: list[int] = dataclasses.field(default_factory=lambda: [0])
+    data: dict[float, float] = Field(default_factory=dict)
+
+    def testa(self):
+        return self.data[1.0], self.friends[0], self.signup_ts.date()

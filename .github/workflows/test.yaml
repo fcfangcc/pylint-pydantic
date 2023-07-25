@@ -2,7 +2,7 @@ name: Python Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
     types: [opened, synchronize]
 
@@ -15,23 +15,22 @@ jobs:
         python-version: ["3.7", "3.8"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install Dependencies
-      run: python -m pip install -r requirements.txt
+      - name: Install Dependencies
+        run: python -m pip install -r requirements.txt
 
-    - name: Install Self
-      run: python setup.py develop
+      - name: Install Self
+        run: python setup.py develop
 
-    - name: Test with pytest
-      run: pylint --rcfile=pylintrc --load-plugins pylint_pydantic examples/lessthan39.py
+      - name: Test with pytest
+        run: pylint --rcfile=pylintrc --load-plugins pylint_pydantic tests/lessthan39.py
 
   test_ge39:
-
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -39,17 +38,17 @@ jobs:
         python-version: ["3.9", "3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install Dependencies
-      run: python -m pip install -r requirements.txt
+      - name: Install Dependencies
+        run: python -m pip install -r requirements.txt
 
-    - name: Install Self
-      run: python setup.py develop
+      - name: Install Self
+        run: python setup.py develop
 
-    - name: Test with pytest
-      run: pylint --rcfile=pylintrc --load-plugins pylint_pydantic examples/base_model.py
+      - name: Test with pytest
+        run: pylint --rcfile=pylintrc --load-plugins pylint_pydantic tests/

@@ -3,6 +3,8 @@ from astroid import MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, nodes
 from pylint.checkers.design_analysis import MisdesignChecker
 from pylint_plugin_utils import suppress_message
 
+from . import field
+
 CLASSMETHOD_VALIDATOR_NAMES = {"validator", "root_validator", "field_validator"}
 MODE_VALIDATOR_NAMES = {"model_validator"}
 
