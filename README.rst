@@ -26,7 +26,7 @@ Tests
 ============
 .. code:: shell
 
-    pylint --rcfile=pylintrc --load-plugins pylint_pydantic examples/base_model.py
+    pylint --rcfile=pylintrc --load-plugins pylint_pydantic tests/base_model.py
     ------------------------------------
     Your code has been rated at 10.00/10
 
@@ -46,3 +46,4 @@ Changelog
 - v0.2.0: support Pydantic V2
 - v0.2.1: support `model_validator`
 - v0.2.2: fix model_validator keyword **mode**, pydatic>=2.0.3
+- v0.2.4: fix pydantic.Field with BaseModel support
