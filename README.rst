@@ -20,7 +20,7 @@ Use in vscode,settings.json add item
 
 .. code:: shell
 
-    "python.linting.pylintArgs": ["--load-plugins", "pylint_pydantic"]
+    "pylint.args": ["--load-plugins", "pylint_pydantic"]
 
 Tests
 ============
