@@ -20,6 +20,8 @@ Use in vscode,settings.json add item
 
 .. code:: shell
 
+    "pylint.args": ["--load-plugins", "pylint_pydantic"]
+    # in old vscode version maybe
     "python.linting.pylintArgs": ["--load-plugins", "pylint_pydantic"]
 
 Tests
