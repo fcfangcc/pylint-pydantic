@@ -1,10 +1,12 @@
 from setuptools import setup
 
 LONG_DESCRIPTION = open('README.rst').read()
+with open("./requirements.txt", "r") as f:
+    install_requires = f.read().splitlines()
 
 setup(
     name='pylint-pydantic',
-    version='0.2.4',
+    version='0.3.0',
     description='A Pylint plugin to help Pylint understand the Pydantic',
     long_description=LONG_DESCRIPTION,
     author='fcfangcc',
@@ -16,13 +18,13 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Quality Assurance',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
     ],
     keywords=['pylint', 'pydantic'],
-    python_requires=">=3.7",
-    install_requires=['pylint>2.0,<3.0', 'pydantic<3.0', 'pylint_plugin_utils'],
+    python_requires=">=3.8",
+    install_requires=install_requires,
 )
