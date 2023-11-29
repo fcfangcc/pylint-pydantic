@@ -1,5 +1,5 @@
 import astroid
-from astroid import MANAGER, Attribute, Call, ClassDef, FunctionDef, Name, nodes
+from astroid import MANAGER, Attribute, Call, ClassDef, FunctionDef, InferenceError, Name, nodes
 from pylint.checkers.design_analysis import MisdesignChecker
 from pylint_plugin_utils import suppress_message
 
@@ -7,6 +7,7 @@ from . import field
 
 CLASSMETHOD_VALIDATOR_NAMES = {"validator", "root_validator", "field_validator"}
 MODE_VALIDATOR_NAMES = {"model_validator"}
+MODULE_NAME = "pydantic"
 
 
 def _mode_validator_is_classmethod(call: Call):
@@ -19,7 +20,6 @@ def _mode_validator_is_classmethod(call: Call):
 
 # def _get_decorator_name(decorator: Name | Attribute):
 def _get_decorator_name(decorator):
-
     # @validator(pre=True)
     if isinstance(decorator, Call):
         decorator = decorator.func
@@ -35,22 +35,39 @@ def _get_decorator_name(decorator):
     return None
 
 
-def _is_classmethod_decorator(node: FunctionDef):
+def _infer_is_pydantic_decorator(node):
+    # @validator(pre=True)
+    if isinstance(node, Call):
+        node = node.func
 
+    try:
+        inferreds = node.inferred()
+        inferred = inferreds[0] if inferreds else None
+        if inferred:
+            name = inferred.root().name
+            return name.startswith(MODULE_NAME)
+    except (InferenceError, StopIteration):
+        return False
+
+    return False
+
+
+def _is_classmethod_decorator(node: FunctionDef):
     if not node.decorators:
         return False
 
     for decorator in node.decorators.get_children():
-        decorator_name = _get_decorator_name(decorator)
+        if _infer_is_pydantic_decorator(decorator):
+            decorator_name = _get_decorator_name(decorator)
 
-        if decorator_name is None:
-            return False
+            if decorator_name is None:
+                return False
 
-        if decorator_name in CLASSMETHOD_VALIDATOR_NAMES:
-            return True
+            if decorator_name in CLASSMETHOD_VALIDATOR_NAMES:
+                return True
 
-        if decorator_name in MODE_VALIDATOR_NAMES:
-            return _mode_validator_is_classmethod(decorator)
+            if decorator_name in MODE_VALIDATOR_NAMES:
+                return _mode_validator_is_classmethod(decorator)
 
     return False
 

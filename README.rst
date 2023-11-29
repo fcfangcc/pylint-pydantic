@@ -45,8 +45,10 @@ https://github.com/fcfangcc/pylint-pydantic/issues
 
 Changelog
 =====================
-- v0.2.0: support Pydantic V2
-- v0.2.1: support `model_validator`
-- v0.2.2: fix model_validator keyword **mode**, pydatic>=2.0.3
-- v0.2.4: fix pydantic.Field with BaseModel support
+
+- v0.3.1: fixed #29
 - v0.3.0: support pylint3
+- v0.2.4: fix pydantic.Field with BaseModel support
+- v0.2.2: fix model_validator keyword **mode**, pydatic>=2.0.3
+- v0.2.1: support `model_validator`
+- v0.2.0: support Pydantic V2

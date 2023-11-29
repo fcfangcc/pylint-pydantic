@@ -63,7 +63,8 @@ confidence=
 disable=missing-function-docstring,
       missing-module-docstring,
       missing-class-docstring,
-      invalid-name
+      invalid-name,
+      too-few-public-methods
 
 
 # Enable the message, report, category or checker with the given id(s). You can
