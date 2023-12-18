@@ -94,9 +94,7 @@ def transform_pydantic_json(node: nodes.Subscript):
             return new_subscript
 
 
-MANAGER.register_transform(FunctionDef, transform)
-MANAGER.register_transform(nodes.Subscript, transform_pydantic_json)
-
-
 def register(linter):
+    MANAGER.register_transform(FunctionDef, transform)
+    MANAGER.register_transform(nodes.Subscript, transform_pydantic_json)
     suppress_message(linter, MisdesignChecker.leave_classdef, 'too-few-public-methods', is_pydantic_config_class)
