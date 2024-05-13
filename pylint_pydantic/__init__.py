@@ -92,6 +92,7 @@ def transform_pydantic_json(node: nodes.Subscript):
         if inferred and inferred.is_subtype_of("pydantic.types.Json"):
             new_subscript = astroid.extract_node(node.slice.as_string())
             return new_subscript
+    return None
 
 
 def register(linter):
