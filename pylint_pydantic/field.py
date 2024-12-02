@@ -12,7 +12,7 @@ PYDANTIC_FIELD_NAME = {"Field"}
 
 def _looks_like_pydantic_field_call(node: nodes.Call, check_scope: bool = True):
     if check_scope:
-        stmt = node.statement(future=True)
+        stmt = node.statement()
         scope = stmt.scope()
         if not (isinstance(stmt, nodes.AnnAssign) and stmt.value is not None and isinstance(scope, nodes.ClassDef)):
             return False
