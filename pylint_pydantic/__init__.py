@@ -99,3 +99,14 @@ def register(linter):
     MANAGER.register_transform(FunctionDef, transform)
     MANAGER.register_transform(nodes.Subscript, transform_pydantic_json)
     suppress_message(linter, MisdesignChecker.leave_classdef, 'too-few-public-methods', is_pydantic_config_class)
+
+
+# pylint: disable=import-outside-toplevel
+def list_dependencies():
+    import json
+    import sys
+    from importlib.metadata import version
+    dependencies = ["pylint", "pylint_plugin_utils", "astroid", "pydantic", "pylint_pydantic"]
+    info = {i: version(i) for i in dependencies}
+    info["python"] = sys.version
+    return json.dumps(info, indent=4)
