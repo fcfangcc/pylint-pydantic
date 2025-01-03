@@ -87,11 +87,10 @@ def is_pydantic_config_class(node: ClassDef):
 
 def transform_pydantic_json(node: nodes.Subscript):
     if "Json" in node.value.as_string():
-        inferreds = node.value.inferred()
-        inferred = inferreds[0] if inferreds else None
-        if inferred and inferred.is_subtype_of("pydantic.types.Json"):
-            new_subscript = astroid.extract_node(node.slice.as_string())
-            return new_subscript
+        for inference in node.value.inferred():
+            if isinstance(inference, ClassDef) and inference.is_subtype_of("pydantic.types.Json"):
+                new_subscript = astroid.extract_node(node.slice.as_string())
+                return new_subscript
     return None
 
 
