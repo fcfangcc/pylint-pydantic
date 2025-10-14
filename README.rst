@@ -46,6 +46,7 @@ https://github.com/fcfangcc/pylint-pydantic/issues
 Changelog
 =====================
 
+- v0.4.0: Support pylint4,Remove support for python3.9
 - v0.3.4: fixed #35 #34
 - v0.3.1: fixed #29
 - v0.3.0: support pylint3
