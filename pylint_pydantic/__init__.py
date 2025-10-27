@@ -75,6 +75,7 @@ def _is_classmethod_decorator(node: FunctionDef):
 def transform(node: FunctionDef):
     if _is_classmethod_decorator(node):
         node.type = "classmethod"
+    return node
 
 
 def is_pydantic_config_class(node: ClassDef):
