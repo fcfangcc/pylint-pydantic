@@ -6,7 +6,7 @@ with open("./requirements.txt", "r") as f:
 
 setup(
     name="pylint-pydantic",
-    version="0.4.0",
+    version="0.4.1",
     description="A Pylint plugin to help Pylint understand the Pydantic",
     long_description=LONG_DESCRIPTION,
     author="fcfangcc",
@@ -22,6 +22,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
     keywords=["pylint", "pydantic"],
     python_requires=">=3.10",
