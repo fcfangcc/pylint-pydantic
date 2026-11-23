@@ -73,8 +73,7 @@ def _is_classmethod_decorator(node: FunctionDef):
 
 
 def transform(node: FunctionDef):
-    if _is_classmethod_decorator(node):
-        node.type = "classmethod"
+    node.type = "classmethod"
     return node
 
 
@@ -96,7 +95,7 @@ def transform_pydantic_json(node: nodes.Subscript):
 
 
 def register(linter):
-    MANAGER.register_transform(FunctionDef, transform)
+    MANAGER.register_transform(FunctionDef, transform, _is_classmethod_decorator)
     MANAGER.register_transform(nodes.Subscript, transform_pydantic_json)
     suppress_message(linter, MisdesignChecker.leave_classdef, 'too-few-public-methods', is_pydantic_config_class)
 
